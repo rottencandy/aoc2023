@@ -10,7 +10,7 @@ fn solve_part1(input: &str) -> u32 {
 
             match nums.len() {
                 1 => nums[0] * 10 + nums[0],
-                _ => nums[0] * 10 + nums.last().unwrap(),
+                n => nums[0] * 10 + nums[n - 1],
             }
         })
         .sum::<u32>()
@@ -20,23 +20,24 @@ fn solve_part2(input: &str) -> u32 {
     input
         .split_whitespace()
         .map(|line| {
-            let mut digits: Vec<u32> = vec![];
+            let mut nums: Vec<u32> = vec![];
 
             for i in 0..line.len() {
                 if line.chars().nth(i).is_some_and(|c| c.is_ascii_digit()) {
-                    digits.push(line.chars().nth(i).unwrap_or('0').to_digit(10).unwrap());
+                    nums.push(line.chars().nth(i).unwrap().to_digit(10).unwrap());
                 }
-                for (key, value) in DIGITS.iter().enumerate() {
-                    if line[i..].starts_with(value) {
-                        digits.push(key as u32);
+                for (k, v) in DIGITS.iter().enumerate() {
+                    if line[i..].starts_with(v) {
+                        nums.push(k as u32);
+                        break;
                     }
                 }
             }
 
-            let first_digit = digits.iter().nth(0).unwrap_or(&0);
-            let last_digit = digits.iter().nth_back(0).unwrap_or(&0);
-
-            first_digit * 10 + last_digit
+            match nums.len() {
+                1 => nums[0] * 10 + nums[0],
+                n => nums[0] * 10 + nums[n - 1],
+            }
         })
         .sum::<u32>()
 }

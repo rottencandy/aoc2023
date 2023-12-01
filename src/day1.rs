@@ -4,8 +4,7 @@ fn solve_part1(input: &str) -> u32 {
         .map(|line| {
             let nums = line
                 .chars()
-                .filter(|c| c.is_ascii_digit())
-                .map(|c| c.to_digit(10).unwrap())
+                .filter_map(|c| c.to_digit(10))
                 .collect::<Vec<u32>>();
 
             match nums.len() {
